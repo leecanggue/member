@@ -3,10 +3,9 @@ package service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
- 
+
 import bean.MemberBean;
-import dao.MemberDAO;
-import service.MemberService;
+import dao.MemberDaoImpl;
  
 public class MemberServiceImpl implements MemberService{
     /*
@@ -23,32 +22,47 @@ public class MemberServiceImpl implements MemberService{
     
     Map<String,Object> map = new HashMap<String,Object>();
     MemberBean bean = new MemberBean();
+    
+    
     @Override
     public int join(MemberBean bean) {
-        return MemberDAO.getInstance().join(bean);
+        return MemberDaoImpl.getInstance().insert(bean);
     }
- 
+    
     @Override
-    public String login(String id, String password) {
-        String msg = "";
-        System.out.println(" ID :" + map.get("id"));
-        if(!map.containsKey("id") || !(map.get("id").equals(id))){ 
-            msg = "일치하는 ID가 없습니다.";
-        }else{
-            
-            if(!(map.get("password").equals(password))){
-                msg = "비번이 일치하지 않습니다.";
-            }else{
-                msg = "환영합니다..";
-            }
-        }
-        return msg;
+    public List<Object> memberList() {
+        return MemberDaoImpl.getInstance().list();
     }
- 
-    @Override
-    public List<MemberBean> getList() {
-        MemberDAO dao = MemberDAO.getInstance();
-        return dao.getList();
-    }
+	@Override
+	public int count() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public MemberBean memberDetail(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<Object> searchByKeyword(String keyword) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int updateMember(MemberBean bean) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public int deleteMember(String id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public String login(String id, String password) {
+		String msg = "";
+		bean = (MemberBean) MemberDaoImpl.getInstance().getElementById(id);
+		return msg;
+	}
  
 }

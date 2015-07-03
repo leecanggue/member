@@ -30,7 +30,6 @@ public class MemberController extends HttpServlet {
     
     Map<String,Object> map = new HashMap<String,Object>();
     MemberBean bean = new MemberBean();
-    MemberService service = MemberServiceImpl.getInstance();
     
    
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -49,9 +48,7 @@ public class MemberController extends HttpServlet {
             dispatcher4.forward(request, response);
             break;
         case "/member/searchAllMembers.do": 
-            List<MemberBean> list = new ArrayList<MemberBean>();
-            list = service.getList();
-            request.setAttribute("memberList", list);
+            request.setAttribute("memberList", MemberServiceImpl.getInstance().memberList());
             RequestDispatcher dispatcher5 
                 = request.getRequestDispatcher("/view/memberList.jsp");
             dispatcher5.forward(request, response);
@@ -78,7 +75,7 @@ public class MemberController extends HttpServlet {
             bean.setPassword(password);
             bean.setAge(age);
             
-            service.join(bean);
+            MemberServiceImpl.getInstance().join(bean);
             RequestDispatcher dispatcher 
                 = request.getRequestDispatcher("/view/main.jsp");
             dispatcher.forward(request, response);
@@ -87,7 +84,7 @@ public class MemberController extends HttpServlet {
             
             String id2 = request.getParameter("id");
             String pass = request.getParameter("password");
-            String msg = service.login(id2, pass);
+            String msg = MemberServiceImpl.getInstance().login(id2, pass);
             
             if(msg.equals("환영합니다..")){
                 System.out.println("로그인 성공시 : "+bean.getId());
